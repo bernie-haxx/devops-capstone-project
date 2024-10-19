@@ -1,5 +1,5 @@
 ---
-name: Issue Template
+name: User Story Template
 about: This will be used in the creation of the stories.
 title: "[Enhancement]"
 labels: ''
