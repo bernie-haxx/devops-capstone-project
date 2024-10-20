@@ -140,7 +140,7 @@ class TestAccountService(TestCase):
         # Assert the post data and get data
         data = resp.get_json()
         self.assertEqual(data['name'], account.name)
-    
+
     def test_account_read_not_found(self):
         """
         It should read an account with an account id that does not exist
@@ -151,7 +151,7 @@ class TestAccountService(TestCase):
             content_type="application/json"
             )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_get_account_list(self):
         """
         It should Get a list of Accounts
@@ -168,7 +168,7 @@ class TestAccountService(TestCase):
         # get the data from resp.get_json() and assert that the len() of the data is 5
         data = resp.get_json()
         self.assertEqual(len(data), 5)
-    
+
     def test_update_account(self):
         """
         It should Update an existing Account
@@ -176,7 +176,8 @@ class TestAccountService(TestCase):
         # create an Account to update
         test_account = AccountFactory()
 
-        # send a self.client.post() request to the BASE_URL with a json payload of test_account.serialize()
+        # send a self.client.post() request to the BASE_URL
+        # with a json payload of test_account.serialize()
         resp = self.client.post(
             BASE_URL,
             json=test_account.serialize(),
@@ -217,7 +218,7 @@ class TestAccountService(TestCase):
             content_type="application/json"
             )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_delete_account(self):
         """
         It should Delete an Account
@@ -228,7 +229,7 @@ class TestAccountService(TestCase):
 
         # assert that the resp.status_code is status.HTTP_204_NO_CONTENT
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
-    
+
 
     def test_method_not_allowed(self):
         """
@@ -236,6 +237,3 @@ class TestAccountService(TestCase):
         """
         resp = self.client.delete(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
-        
-        

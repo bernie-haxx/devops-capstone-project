@@ -75,7 +75,7 @@ def list_accounts():
     account_list = [account.serialize() for account in accounts]
     # log the number of accounts being returned in the list
     app.logger.info("Account retrieved from request: %s", str(len(account_list)))
-    
+
     # return the list with a return code of status.HTTP_200_OK
     return jsonify(account_list), status.HTTP_200_OK
 
@@ -97,7 +97,7 @@ def read_account(account_id):
     # Account not found exception
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
-    
+
     # Serialize data and return it with 200 success code
     json_data = account.serialize()
     app.logger.info(

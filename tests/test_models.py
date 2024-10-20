@@ -175,20 +175,20 @@ class TestAccount(unittest.TestCase):
         """It should not Deserialize an account with a TypeError"""
         account = Account()
         self.assertRaises(DataValidationError, account.deserialize, [])
-    
+
     def test_deserialize_with_date_joined_error(self):
         """
         It should not place a nullable to date_joined field
         """
         account = AccountFactory()
         account.create()
-        
+
         serial_account = account.serialize()
         serial_account["date_joined"] = None
         new_account = Account()
         new_account.deserialize(serial_account)
         self.assertNotEqual(new_account.date_joined, serial_account["date_joined"])
-    
+
     def test_account_repr_string(self):
         """
         It should print out the account string representation
@@ -196,7 +196,7 @@ class TestAccount(unittest.TestCase):
         account = AccountFactory()
         account.create()
 
-        self.assertEqual(account.__repr__(), f"<Account {account.name} id=[{account.id}]>")
+        self.assertEqual(str(account), f"<Account {account.name} id=[{account.id}]>")
 
     def test_persistent_base_initiallize_id(self):
         """
