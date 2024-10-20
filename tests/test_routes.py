@@ -141,7 +141,7 @@ class TestAccountService(TestCase):
         data = resp.get_json()
         self.assertEqual(data['name'], account.name)
     
-    def test_account_not_found(self):
+    def test_account_read_not_found(self):
         """
         It should read an account with an account id that does not exist
         """
@@ -168,3 +168,52 @@ class TestAccountService(TestCase):
         # get the data from resp.get_json() and assert that the len() of the data is 5
         data = resp.get_json()
         self.assertEqual(len(data), 5)
+    
+    def test_update_account(self):
+        """
+        It should Update an existing Account
+        """
+        # create an Account to update
+        test_account = AccountFactory()
+
+        # send a self.client.post() request to the BASE_URL with a json payload of test_account.serialize()
+        resp = self.client.post(
+            BASE_URL,
+            json=test_account.serialize(),
+            content_type='application/json'
+        )
+        # assert that the resp.status_code is status.HTTP_201_CREATED
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # get the data from resp.get_json() as new_account
+        new_account = resp.get_json()
+
+        # change new_account["name"] to something known
+        new_account["name"] = "Uga Booga"
+
+        # send a self.client.put() request to the BASE_URL with a json payload of new_account
+        resp = self.client.put(
+            f"{BASE_URL}/{new_account['id']}",
+            json=new_account,
+            content_type='application/json'
+        )
+
+        # assert that the resp.status_code is status.HTTP_200_OK
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        # get the data from resp.get_json() as updated_account
+        updated_account = resp.get_json()
+
+        # assert that the updated_account["name"] is whatever you changed it to
+        self.assertEqual(updated_account["name"], "Uga Booga")
+
+    def test_account_not_found(self):
+        """
+        It should update an account with an account id that does not exist
+        """
+        # Get response request and assert HTTP_404_NOT_FOUND
+        resp = self.client.put(
+            f"{BASE_URL}/0",
+            content_type="application/json"
+            )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
