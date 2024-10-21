@@ -80,3 +80,17 @@ spec:
       runAfter:
         - tests
         - lint
+    
+    - name: deploy
+      workspaces:
+        - name: manifest-dir
+          workspace: pipeline-workspace          
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+      - name: IMAGE
+        value: "$(params.build-image)"
+      runAfter:
+        - tests
+        - lint
